@@ -75,8 +75,12 @@ Abrindo `http://localhost:5180` num navegador comum, um mock em memória substit
 
 Com um certificado Apple Developer ID, configure os secrets `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` e `APPLE_TEAM_ID` no repositório — os builds passam a sair assinados/notarizados e a instalação de atualizações vira um clique, sem o aviso do Gatekeeper.
 
+## Sobre este projeto
+
+O OpenMermaid foi criado com o **Claude Fable 5** (Anthropic), como forma de estudo e de teste das capacidades do modelo: da arquitetura ao código, do design da interface ao pipeline de release, todo o desenvolvimento foi conduzido em conversa com o modelo dentro do [Claude Code](https://claude.com/claude-code).
+
 ## Licença
 
 [GPL-3.0-or-later](LICENSE) — software livre: use, estude, modifique e redistribua. Obras derivadas devem permanecer livres.
 
-Feito por **Igor Vac** · diagramas por [Mermaid](https://mermaid.js.org) · fonte [Ubuntu](https://design.ubuntu.com/font) · ícones [Material Symbols](https://fonts.google.com/icons)
+Feito por **Igor Vac** com Claude Fable 5 · diagramas por [Mermaid](https://mermaid.js.org) · fonte [Ubuntu](https://design.ubuntu.com/font) · ícones [Material Symbols](https://fonts.google.com/icons)
