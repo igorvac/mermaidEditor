@@ -47,14 +47,14 @@ function buildMenu() {
     {
       label: app.name,
       submenu: [
-        { role: 'about', label: 'Sobre o Mermaid Studio' },
+        { role: 'about', label: 'Sobre o OpenMermaid' },
         { label: 'Verificar atualizações…', click: () => checkForUpdates(true) },
         { type: 'separator' },
         { role: 'hide', label: 'Ocultar' },
         { role: 'hideOthers', label: 'Ocultar outros' },
         { role: 'unhide', label: 'Mostrar tudo' },
         { type: 'separator' },
-        { role: 'quit', label: 'Encerrar Mermaid Studio' }
+        { role: 'quit', label: 'Encerrar OpenMermaid' }
       ]
     },
     {

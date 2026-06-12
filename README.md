@@ -1,84 +1,82 @@
-# Mermaid Studio
+<div align="center">
+  <img src="src/assets/logo-color.svg" alt="OpenMermaid" height="110">
 
-Editor desktop de diagramas [Mermaid](https://mermaid.js.org) para macOS — visual e por código, 100% offline.
+  # OpenMermaid
 
-![stack](https://img.shields.io/badge/Electron-React-465775) ![mermaid](https://img.shields.io/badge/Mermaid-11-D4CDF4)
+  **Crie diagramas bonitos sem sair do seu Mac — desenhando no canvas ou escrevendo código [Mermaid](https://mermaid.js.org). 100% offline e de graça.**
 
-## Funcionalidades
+  [⬇️ Baixar a última versão](https://github.com/igorvac/openMermaid/releases/latest) · [Reportar um problema](https://github.com/igorvac/openMermaid/issues)
 
-- **Edição bidirecional em tempo real**: digite código Mermaid e veja o diagrama instantaneamente, ou edite o diagrama visualmente e veja o código se regenerar.
-- **Edição visual de flowcharts**: clique para selecionar, duplo-clique para renomear, toolbar para adicionar nós (9 formas) e conexões, Inspector para forma/cor/rótulo/tipo de linha, `Delete` para excluir.
-- **Drag & drop**: arraste nós para reposicioná-los. Como a sintaxe Mermaid não suporta posições, os offsets ficam num sidecar `<arquivo>.mmd.layout.json` ao lado do arquivo (versionável). O botão ✨ restaura o layout automático.
-- **Todos os tipos de diagrama** renderizam ao vivo (sequence, class, ER, gantt, state, pie, mindmap…); a edição visual é específica de flowcharts.
-- **Projetos**: um projeto é uma pasta no disco com arquivos `.mmd`/`.mermaid`, com subpastas, criação, renomeação, duplicação e lixeira. Autosave com indicador de não-salvo.
-- **Exportação** em SVG (vetorial, fonte embutida), PNG (2x) e PDF (vetorial via impressão nativa).
-- **100% offline**: mermaid, fontes (Ubuntu) e ícones (Material Symbols) empacotados no app. A única chamada de rede é a checagem opcional de atualização.
-- **Auto-update gráfico**: banner no app quando uma nova versão é publicada no GitHub Releases.
+  ![macOS](https://img.shields.io/badge/macOS-universal-465775) ![Licença](https://img.shields.io/badge/licen%C3%A7a-GPLv3-59C9A5) ![Mermaid](https://img.shields.io/badge/Mermaid-11-D4CDF4)
+</div>
 
-## Atalhos
+![Captura de tela do OpenMermaid](docs/screenshot.png)
 
-| Atalho | Ação |
+## O que é?
+
+Mermaid é uma linguagem popular para descrever diagramas em texto (fluxogramas, sequências, Gantt…). O OpenMermaid é um aplicativo de desktop que torna isso acessível para qualquer pessoa:
+
+- **Quem não programa** desenha direto no canvas: adiciona caixas, conecta, arrasta, renomeia — e o código Mermaid vai sendo escrito sozinho.
+- **Quem programa** digita o código e vê o diagrama se desenhar em tempo real.
+- Os dois mundos ficam **sempre sincronizados**: editar de um lado atualiza o outro na hora.
+
+Tudo funciona **offline** — nada sai do seu computador.
+
+## Recursos
+
+| | |
 |---|---|
-| ⌘N / ⇧⌘N / ⌘O | Novo diagrama / Novo projeto / Abrir projeto |
-| ⌘S | Salvar agora (autosave já é automático) |
-| ⇧⌘E | Exportar PNG |
-| ⌘+ / ⌘− / ⌘0 / ⇧⌘0 | Zoom in / out / 100% / ajustar à tela |
-| ⇧⌘L / ⇧⌘B | Alternar painel de código / barra lateral |
-| Delete · Esc | Excluir seleção · cancelar seleção/ferramenta |
-| Scroll / ⌘+scroll (pinch) | Pan / zoom no canvas |
+| 🎨 **Edição visual** | Clique para selecionar, duplo-clique para renomear, arraste para reposicionar. 9 formas de nó, conexões com rótulo, cores e direção do fluxo. |
+| ⚡ **Tempo real** | Código → diagrama e diagrama → código, instantâneo nos dois sentidos. |
+| 📁 **Projetos** | Um projeto é uma pasta comum com arquivos `.mmd` — organize com subpastas, renomeie, duplique. Salvamento automático. |
+| 📤 **Exportação** | SVG (vetorial), PNG (alta resolução) e PDF. |
+| 🧜‍♀️ **Todos os diagramas Mermaid** | Fluxogramas com edição visual; sequência, classes, ER, Gantt, mindmaps e os demais renderizam ao vivo com edição por texto. |
+| 🔒 **Offline e privado** | Sem conta, sem nuvem, sem telemetria. A única conexão é a checagem opcional de novas versões. |
+| 🔄 **Atualizações** | O app avisa quando há versão nova e leva você ao download. |
 
-## Desenvolvimento
+## Instalação
+
+1. Baixe o `.dmg` na [página de releases](https://github.com/igorvac/openMermaid/releases/latest).
+2. Abra e arraste o **OpenMermaid** para a pasta **Aplicativos**.
+3. **Na primeira abertura**, o macOS bloqueia apps fora da App Store: vá em **Ajustes do Sistema → Privacidade e Segurança** e clique em **"Abrir Assim Mesmo"**. Só precisa uma vez.
+
+> Por que o aviso? O OpenMermaid é um projeto livre e gratuito, sem o certificado pago da Apple (US$ 99/ano). O aviso é padrão para qualquer app não assinado — o código é aberto e você pode auditá-lo aqui mesmo.
+
+## Primeiros passos
+
+1. **Novo projeto** → escolha onde criar a pasta.
+2. Um diagrama de exemplo já abre pronto: brinque com ele — arraste as caixas, dê duplo-clique para renomear, use a barra de ferramentas à esquerda do canvas para adicionar formas e conexões.
+3. O painel de código (à esquerda) mostra o Mermaid sendo gerado; edite-o quando quiser.
+4. Exporte pelo botão ⬇️ da barra de ferramentas ou pelo menu **Arquivo → Exportar**.
+
+**Atalhos úteis**: `⌘N` novo diagrama · `⌘+`/`⌘−`/`⇧⌘0` zoom/ajustar · `⇧⌘L` painel de código · `Delete` excluir seleção · scroll = mover canvas, `⌘`+scroll = zoom.
+
+## Para desenvolvedores
 
 ```bash
+git clone https://github.com/igorvac/openMermaid.git
+cd openMermaid
 npm install
-npm run dev        # vite + electron com hot reload
-npm test           # testes do parser/codegen (vitest)
-npm run typecheck
-npm run dist       # gera o .dmg em release/
+npm run dev      # vite + electron com hot reload
+npm test         # testes do parser (vitest)
+npm run dist     # gera o .dmg em release/
 ```
 
-Abrindo `http://localhost:5180` num navegador comum, um mock em memória de `window.api` é usado — útil para mexer na UI sem o Electron.
+Stack: Electron + React + TypeScript, Mermaid 11, CodeMirror 6, Zustand. Pontos de interesse:
 
-## Instalar no seu Mac
+- `src/mermaid/` — parser e gerador de código de flowcharts (a ponte entre o canvas e o texto; o código é a fonte da verdade).
+- `src/canvas/svgLayout.ts` — drag & drop sobre o SVG do Mermaid: offsets manuais ficam num sidecar `<arquivo>.mmd.layout.json` e as arestas são re-roteadas.
+- `electron/` — janela, menu nativo, filesystem via IPC, updater e export de PDF.
+- `.github/workflows/release.yml` — cada push na branch `openMermaid` roda os testes, incrementa a versão e publica a release automaticamente.
 
-```bash
-npm install
-npm run dist
-open release/        # abra o "Mermaid Studio-<versão>-universal.dmg"
-```
+Abrindo `http://localhost:5180` num navegador comum, um mock em memória substitui o filesystem — útil para mexer só na interface.
 
-Arraste o app para `Aplicativos`. Como o build foi feito na sua própria máquina, o macOS abre normalmente, sem nenhum aviso.
+### Releases assinadas (opcional)
 
-## Distribuir para colegas e amigos (sem Apple Developer ID)
-
-O app é distribuído **sem assinatura/notarização da Apple**. Funciona normalmente, mas quem baixar o `.dmg` da internet vai esbarrar no Gatekeeper na primeira abertura ("não pode ser aberto" / "está danificado"). Há duas saídas — inclua estas instruções quando compartilhar:
-
-- **Caminho gráfico**: tentar abrir o app uma vez → ir em **Ajustes do Sistema → Privacidade e Segurança** → na seção Segurança, clicar em **"Abrir Assim Mesmo"** ao lado do aviso sobre o Mermaid Studio (e confirmar). Só é preciso uma vez.
-- **Caminho terminal** (remove a marca de quarentena):
-  ```bash
-  xattr -cr "/Applications/Mermaid Studio.app"
-  ```
-
-Isso é uma limitação do macOS para qualquer app não assinado, não um defeito do app. Se um dia você tiver um certificado Apple Developer ID, basta configurar os secrets `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` e `APPLE_TEAM_ID` no repositório e os builds passam a sair assinados, sem nenhum outro ajuste.
-
-## Auto-update
-
-O mecanismo já está configurado para `igorvac/mermaidEditor` (em `electron-builder.yml` e `electron/updater.ts`). Para ativá-lo:
-
-1. Crie o repositório **público** `igorvac/mermaidEditor` no GitHub (precisa ser público para os apps instalados consultarem as releases sem token) e faça push do código.
-2. A cada push na `main`, o workflow `.github/workflows/release.yml` roda os testes, incrementa a versão patch, builda o app e publica uma GitHub Release.
-3. Os apps instalados checam ao abrir e a cada 4 h, e mostram o banner de nova versão.
-
-> ⚠️ **Sem assinatura, a instalação automática não funciona no macOS** — o sistema exige app assinado para o updater trocar o binário sozinho. Na prática, sem certificado o fluxo é: o banner avisa que há versão nova → ao falhar a instalação automática, oferece **"Baixar manualmente"**, que abre a página da release para baixar o novo `.dmg`. Com certificado (secrets acima), o fluxo completo de baixar-e-reiniciar passa a funcionar.
+Com um certificado Apple Developer ID, configure os secrets `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` e `APPLE_TEAM_ID` no repositório — os builds passam a sair assinados/notarizados e a instalação de atualizações vira um clique, sem o aviso do Gatekeeper.
 
 ## Licença
 
-[GPL-3.0-or-later](LICENSE) — software livre: use, estude, modifique e redistribua; obras derivadas devem permanecer sob a mesma licença.
+[GPL-3.0-or-later](LICENSE) — software livre: use, estude, modifique e redistribua. Obras derivadas devem permanecer livres.
 
-## Arquitetura (resumo)
-
-- `electron/` — processo main: janela, menu nativo, IPC de filesystem, updater, export PDF via `printToPDF`.
-- `src/mermaid/` — `parser.ts` (flowchart → modelo), `codegen.ts` (modelo → código canônico), `renderer.ts` (mermaid com tema próprio).
-- `src/canvas/svgLayout.ts` — aplica offsets de drag ao SVG renderizado e re-roteia arestas.
-- `src/store/appStore.ts` — estado global (zustand): projeto, arquivo, código, modelo, seleção, updates.
-- O **código é a fonte da verdade**; a GUI edita o modelo e regenera o código. Arquivos com sintaxe flowchart fora do subconjunto suportado caem graciosamente para edição somente-texto.
+Feito por **Igor Vac** · diagramas por [Mermaid](https://mermaid.js.org) · fonte [Ubuntu](https://design.ubuntu.com/font) · ícones [Material Symbols](https://fonts.google.com/icons)

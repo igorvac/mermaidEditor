@@ -4,6 +4,7 @@ import {
   applyLayout,
   applySelection,
   edgeIndexFromTarget,
+  enhanceHitAreas,
   extractNodeId,
   nodeIdFromTarget,
   prepareSvg
@@ -85,6 +86,7 @@ export function CanvasArea() {
     if (!svg) return;
     prepareSvg(svg);
     const s = useApp.getState();
+    enhanceHitAreas(svg);
     applyLayout(svg, s.model, s.layout);
     applySelection(svg, s.model, s.selection, s.connectFrom);
     if (filePath && fittedFileRef.current !== filePath) {

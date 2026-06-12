@@ -9,7 +9,7 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches: [openMermaid]
 
 concurrency:
   group: release
@@ -81,7 +81,7 @@ jobs:
           gh release create "v$VERSION" \
             release/*.dmg release/*.zip release/*.blockmap release/latest-mac.yml \
             --repo "${{ github.repository }}" \
-            --title "Mermaid Studio v$VERSION" \
+            --title "OpenMermaid v$VERSION" \
             --notes "Release automática gerada a partir da branch main."
 
       - name: Remover releases incompletas (sem latest-mac.yml)

@@ -48,7 +48,56 @@ export function nodeGroups(svg: SVGSVGElement): Map<string, SVGGElement> {
 }
 
 export function edgePaths(svg: SVGSVGElement): SVGPathElement[] {
-  return Array.from(svg.querySelectorAll<SVGPathElement>('.edgePaths path'));
+  return Array.from(svg.querySelectorAll<SVGPathElement>('.edgePaths path:not(.edge-hit)'));
+}
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+/**
+ * Áreas de clique generosas: um clone invisível e largo para cada aresta e um
+ * retângulo transparente cobrindo cada nó (forma + rótulo + folga).
+ */
+export function enhanceHitAreas(svg: SVGSVGElement) {
+  edgePaths(svg).forEach((path, i) => {
+    let hit = path.nextElementSibling as SVGPathElement | null;
+    if (!hit || !hit.classList.contains('edge-hit')) {
+      hit = path.cloneNode(false) as SVGPathElement;
+      hit.classList.add('edge-hit');
+      hit.removeAttribute('id');
+      hit.removeAttribute('marker-start');
+      hit.removeAttribute('marker-end');
+      hit.removeAttribute('style');
+      hit.setAttribute('fill', 'none');
+      hit.setAttribute('stroke', 'rgba(0,0,0,0)');
+      hit.setAttribute('stroke-width', '16');
+      path.after(hit);
+    }
+    hit.dataset.edgeIndex = String(i);
+    hit.setAttribute('d', path.getAttribute('d') ?? '');
+  });
+
+  svg.querySelectorAll<SVGGElement>('g.node').forEach((g) => {
+    if (g.querySelector(':scope > rect.node-hit')) return;
+    const box = g.getBBox();
+    const pad = 6;
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    rect.classList.add('node-hit');
+    rect.setAttribute('x', String(box.x - pad));
+    rect.setAttribute('y', String(box.y - pad));
+    rect.setAttribute('width', String(box.width + pad * 2));
+    rect.setAttribute('height', String(box.height + pad * 2));
+    rect.setAttribute('fill', 'transparent');
+    rect.setAttribute('stroke', 'none');
+    g.prepend(rect);
+  });
+}
+
+/** mantém os clones de hit das arestas alinhados com os paths visíveis */
+function syncEdgeHits(svg: SVGSVGElement) {
+  svg.querySelectorAll<SVGPathElement>('.edgePaths path.edge-hit').forEach((hit) => {
+    const original = hit.previousElementSibling as SVGPathElement | null;
+    if (original) hit.setAttribute('d', original.getAttribute('d') ?? '');
+  });
 }
 
 export function edgeLabels(svg: SVGSVGElement): SVGGElement[] {
@@ -148,6 +197,8 @@ export function applyLayout(svg: SVGSVGElement, model: FlowModel | null, layout:
       label.setAttribute('transform', `translate(${(a.x + b.x) / 2}, ${(a.y + b.y) / 2})`);
     }
   });
+
+  syncEdgeHits(svg);
 }
 
 /** Marca visualmente seleção e origem do modo conectar. */
@@ -172,10 +223,19 @@ export function applySelection(
   }
 }
 
-/** índice da aresta a partir de um alvo de clique dentro de .edgePaths */
+/** índice da aresta a partir de um alvo de clique (path, clone de hit ou rótulo) */
 export function edgeIndexFromTarget(svg: SVGSVGElement, target: Element): number | null {
+  const label = target.closest('.edgeLabels .edgeLabel');
+  if (label) {
+    const idx = edgeLabels(svg).indexOf(label as SVGGElement);
+    return idx >= 0 ? idx : null;
+  }
   const path = target.closest('path');
   if (!path || !path.closest('.edgePaths')) return null;
+  if (path.classList.contains('edge-hit')) {
+    const idx = Number(path.dataset.edgeIndex);
+    return Number.isFinite(idx) ? idx : null;
+  }
   const idx = edgePaths(svg).indexOf(path as SVGPathElement);
   return idx >= 0 ? idx : null;
 }

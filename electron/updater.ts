@@ -4,7 +4,7 @@ import { autoUpdater } from 'electron-updater';
 // Mesmo OWNER/REPO do electron-builder.yml — o repositório precisa ser público
 // para o updater consultar as releases sem token.
 export const GITHUB_OWNER = 'igorvac';
-export const GITHUB_REPO = 'mermaidEditor';
+export const GITHUB_REPO = 'openMermaid';
 
 const releasesUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest`;
 

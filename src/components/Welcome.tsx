@@ -1,5 +1,6 @@
 import { useApp } from '../store/appStore';
 import { Icon } from './Icon';
+import logoColor from '../assets/logo-color.svg';
 
 export function Welcome() {
   const recents = useApp((s) => s.recents);
@@ -8,41 +9,45 @@ export function Welcome() {
 
   return (
     <div className="welcome">
-      <div className="welcome-card">
-        <div className="welcome-logo">
-          <Icon name="account_tree" filled />
-        </div>
-        <h1>Mermaid Studio</h1>
+      <div className="welcome-hero">
+        <img src={logoColor} className="welcome-logo-img" alt="OpenMermaid" draggable={false} />
+        <h1>OpenMermaid</h1>
         <p className="subtitle">
-          Crie e edite diagramas Mermaid — visual ou por código, 100% offline.
-          {appVersion ? ` · v${appVersion}` : ''}
+          Diagramas bonitos com Mermaid — desenhe no canvas ou escreva o código. Tudo offline.
         </p>
         <div className="welcome-actions">
-          <button className="btn btn-primary" onClick={() => void newProject()}>
-            <Icon name="add" size={18} />
+          <button className="btn btn-primary btn-lg" onClick={() => void newProject()}>
+            <Icon name="add" size={20} />
             Novo projeto
           </button>
-          <button className="btn btn-ghost" onClick={() => void openProjectDialog()}>
-            <Icon name="folder_open" size={18} />
-            Abrir projeto…
+          <button className="btn btn-soft btn-lg" onClick={() => void openProjectDialog()}>
+            <Icon name="folder_open" size={20} />
+            Abrir pasta…
           </button>
         </div>
-        {recents.length > 0 && (
-          <div className="recents">
-            <div className="recents-title">Projetos recentes</div>
+      </div>
+
+      {recents.length > 0 && (
+        <div className="welcome-recents">
+          <div className="recents-title">Continue de onde parou</div>
+          <div className="recent-grid">
             {recents.map((p) => (
-              <button key={p} className="recent-row" onClick={() => void openProject(p)}>
-                <Icon name="folder" filled />
-                <span>
-                  <span className="recent-name">{p.split('/').pop()}</span>
-                  <br />
-                  <span className="recent-path">{p}</span>
+              <button key={p} className="recent-card" onClick={() => void openProject(p)}>
+                <span className="recent-avatar">
+                  <Icon name="folder" filled />
                 </span>
+                <span className="recent-info">
+                  <span className="recent-name">{p.split('/').pop()}</span>
+                  <span className="recent-path">{p.replace(/^\/Users\/[^/]+/, '~')}</span>
+                </span>
+                <Icon name="arrow_forward" className="recent-go" size={18} />
               </button>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {appVersion && <span className="welcome-version">OpenMermaid v{appVersion} · software livre (GPLv3)</span>}
     </div>
   );
 }
