@@ -1,7 +1,7 @@
 {
   "name": "mermaid-studio",
   "productName": "Mermaid Studio",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Editor offline de diagramas Mermaid para macOS",
   "author": "Igor Vaccari <igorvac@gmail.com>",
