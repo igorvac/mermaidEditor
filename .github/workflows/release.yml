@@ -54,6 +54,7 @@ jobs:
         run: npm run build:electron
 
       - name: Empacotar e publicar (electron-builder)
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
@@ -61,4 +62,17 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: npx electron-builder --mac --publish always
+        run: |
+          # secrets ausentes viram strings vazias e confundem o electron-builder;
+          # sem certificado/notarização as variáveis não podem existir
+          [ -z "$CSC_LINK" ] && unset CSC_LINK CSC_KEY_PASSWORD
+          [ -z "$APPLE_ID" ] && unset APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID
+          set -o pipefail
+          npx electron-builder --mac --publish always 2>&1 | tee /tmp/electron-builder.log
+
+      - name: Expor erro como anotação (diagnóstico)
+        if: failure()
+        shell: bash
+        run: |
+          MSG=$(tail -c 900 /tmp/electron-builder.log 2>/dev/null | tr '\n' '~' | tr -s ' ')
+          echo "::error title=electron-builder::${MSG:-sem log}"
