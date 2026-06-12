@@ -1,9 +1,10 @@
 import { app, ipcMain, shell, type BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
-// Preencher quando o repositório GitHub for criado (mesmo OWNER/REPO do electron-builder.yml)
-export const GITHUB_OWNER = 'OWNER';
-export const GITHUB_REPO = 'REPO';
+// Mesmo OWNER/REPO do electron-builder.yml — o repositório precisa ser público
+// para o updater consultar as releases sem token.
+export const GITHUB_OWNER = 'igorvac';
+export const GITHUB_REPO = 'mermaidEditor';
 
 const releasesUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest`;
 

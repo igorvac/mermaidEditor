@@ -5,7 +5,8 @@
   "private": true,
   "description": "Editor offline de diagramas Mermaid para macOS",
   "author": "Igor Vaccari <igorvac@gmail.com>",
-  "license": "MIT",
+  "repository": "github:igorvac/mermaidEditor",
+  "license": "GPL-3.0-or-later",
   "main": "dist-electron/main.cjs",
   "scripts": {
     "dev": "node scripts/dev.mjs",

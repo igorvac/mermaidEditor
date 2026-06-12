@@ -24,12 +24,12 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip release]')"
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -47,7 +47,13 @@ jobs:
           npm version patch -m "chore: release v%s [skip release]"
           git push --follow-tags
 
-      - name: Build e publicação
+      - name: Build do renderer (vite)
+        run: npm run build:renderer
+
+      - name: Build do processo main (esbuild)
+        run: npm run build:electron
+
+      - name: Empacotar e publicar (electron-builder)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
@@ -55,6 +61,4 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: |
-          npm run build
-          npx electron-builder --mac --publish always
+        run: npx electron-builder --mac --publish always

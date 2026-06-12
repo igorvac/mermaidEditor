@@ -39,17 +39,41 @@ npm run dist       # gera o .dmg em release/
 
 Abrindo `http://localhost:5180` num navegador comum, um mock em memória de `window.api` é usado — útil para mexer na UI sem o Electron.
 
-## Auto-update — o que falta configurar
+## Instalar no seu Mac
 
-O mecanismo já está pronto (electron-updater + workflow do GitHub Actions). Quando criar o repositório GitHub:
+```bash
+npm install
+npm run dist
+open release/        # abra o "Mermaid Studio-<versão>-universal.dmg"
+```
 
-1. Substitua `OWNER`/`REPO` em **dois lugares**:
-   - `electron-builder.yml` (chave `publish`)
-   - `electron/updater.ts` (constantes `GITHUB_OWNER`/`GITHUB_REPO`)
-2. Faça push para a branch `main`: o workflow `.github/workflows/release.yml` roda os testes, incrementa a versão patch, builda o app e publica uma GitHub Release automaticamente.
-3. Os apps instalados detectam a release (ao abrir e a cada 4 h) e mostram o banner de atualização com download e barra de progresso.
+Arraste o app para `Aplicativos`. Como o build foi feito na sua própria máquina, o macOS abre normalmente, sem nenhum aviso.
 
-> ⚠️ **Assinatura obrigatória no macOS**: o auto-update só consegue *instalar* a atualização se o app for assinado (Apple Developer ID) e notarizado. Configure os secrets `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` e `APPLE_TEAM_ID` no repositório. Sem certificado, o banner ainda avisa sobre a nova versão e oferece o download manual pela página de releases.
+## Distribuir para colegas e amigos (sem Apple Developer ID)
+
+O app é distribuído **sem assinatura/notarização da Apple**. Funciona normalmente, mas quem baixar o `.dmg` da internet vai esbarrar no Gatekeeper na primeira abertura ("não pode ser aberto" / "está danificado"). Há duas saídas — inclua estas instruções quando compartilhar:
+
+- **Caminho gráfico**: tentar abrir o app uma vez → ir em **Ajustes do Sistema → Privacidade e Segurança** → na seção Segurança, clicar em **"Abrir Assim Mesmo"** ao lado do aviso sobre o Mermaid Studio (e confirmar). Só é preciso uma vez.
+- **Caminho terminal** (remove a marca de quarentena):
+  ```bash
+  xattr -cr "/Applications/Mermaid Studio.app"
+  ```
+
+Isso é uma limitação do macOS para qualquer app não assinado, não um defeito do app. Se um dia você tiver um certificado Apple Developer ID, basta configurar os secrets `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` e `APPLE_TEAM_ID` no repositório e os builds passam a sair assinados, sem nenhum outro ajuste.
+
+## Auto-update
+
+O mecanismo já está configurado para `igorvac/mermaidEditor` (em `electron-builder.yml` e `electron/updater.ts`). Para ativá-lo:
+
+1. Crie o repositório **público** `igorvac/mermaidEditor` no GitHub (precisa ser público para os apps instalados consultarem as releases sem token) e faça push do código.
+2. A cada push na `main`, o workflow `.github/workflows/release.yml` roda os testes, incrementa a versão patch, builda o app e publica uma GitHub Release.
+3. Os apps instalados checam ao abrir e a cada 4 h, e mostram o banner de nova versão.
+
+> ⚠️ **Sem assinatura, a instalação automática não funciona no macOS** — o sistema exige app assinado para o updater trocar o binário sozinho. Na prática, sem certificado o fluxo é: o banner avisa que há versão nova → ao falhar a instalação automática, oferece **"Baixar manualmente"**, que abre a página da release para baixar o novo `.dmg`. Com certificado (secrets acima), o fluxo completo de baixar-e-reiniciar passa a funcionar.
+
+## Licença
+
+[GPL-3.0-or-later](LICENSE) — software livre: use, estude, modifique e redistribua; obras derivadas devem permanecer sob a mesma licença.
 
 ## Arquitetura (resumo)
 
