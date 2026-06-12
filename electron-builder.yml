@@ -37,3 +37,6 @@ publish:
   provider: github
   owner: igorvac
   repo: mermaidEditor
+  # publica a release imediatamente (o padrão é criar um rascunho invisível
+  # para o auto-updater)
+  releaseType: release
