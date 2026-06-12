@@ -7,6 +7,10 @@ directories:
   output: release
   buildResources: build
 
+# Sem espaços no nome dos artefatos: o GitHub troca espaços por "." no upload,
+# o que descasaria do nome referenciado no latest-mac.yml e quebraria o updater
+artifactName: ${name}-${version}-${arch}.${ext}
+
 files:
   - dist/**
   - dist-electron/**
