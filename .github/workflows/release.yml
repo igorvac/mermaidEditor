@@ -53,10 +53,9 @@ jobs:
       - name: Build do processo main (esbuild)
         run: npm run build:electron
 
-      - name: Empacotar e publicar (electron-builder)
+      - name: Empacotar (electron-builder)
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -68,7 +67,34 @@ jobs:
           [ -z "$CSC_LINK" ] && unset CSC_LINK CSC_KEY_PASSWORD
           [ -z "$APPLE_ID" ] && unset APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID
           set -o pipefail
-          npx electron-builder --mac --publish always 2>&1 | tee /tmp/electron-builder.log
+          npx electron-builder --mac --publish never 2>&1 | tee /tmp/electron-builder.log
+
+      # Publicação via gh em uma única chamada: o publisher embutido do
+      # electron-builder pode criar releases duplicadas na mesma tag (corrida
+      # entre uploads), o que quebra as URLs de download e o auto-update.
+      - name: Publicar release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          gh release create "v$VERSION" \
+            release/*.dmg release/*.zip release/*.blockmap release/latest-mac.yml \
+            --repo "${{ github.repository }}" \
+            --title "Mermaid Studio v$VERSION" \
+            --notes "Release automática gerada a partir da branch main."
+
+      - name: Remover releases incompletas (sem latest-mac.yml)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/releases" \
+            --jq '.[] | select(([.assets[].name] | index("latest-mac.yml")) | not) | .id' |
+          while read -r id; do
+            echo "removendo release incompleta $id"
+            gh api -X DELETE "repos/${{ github.repository }}/releases/$id"
+          done
 
       - name: Expor erro como anotação (diagnóstico)
         if: failure()
