@@ -1,7 +1,7 @@
 {
   "name": "openmermaid",
   "productName": "OpenMermaid",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "description": "Editor visual offline de diagramas Mermaid para macOS",
   "author": "Igor Vac <igorvac@gmail.com>",
