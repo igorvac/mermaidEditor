@@ -1,6 +1,6 @@
-# Configuração de empacotamento do Mermaid Studio
-appId: com.igorvac.mermaidstudio
-productName: Mermaid Studio
+# Configuração de empacotamento do OpenMermaid
+appId: com.igorvac.openmermaid
+productName: OpenMermaid
 copyright: © 2026 Igor Vac
 
 directories:
@@ -33,14 +33,14 @@ mac:
   gatekeeperAssess: false
 
 dmg:
-  title: 'Mermaid Studio ${version}'
+  title: 'OpenMermaid ${version}'
 
 # Mesmo OWNER/REPO de electron/updater.ts. O repositório precisa ser PÚBLICO
 # para o auto-update funcionar sem token nos apps instalados.
 publish:
   provider: github
   owner: igorvac
-  repo: mermaidEditor
+  repo: openMermaid
   # publica a release imediatamente (o padrão é criar um rascunho invisível
   # para o auto-updater)
   releaseType: release

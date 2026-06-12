@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useApp } from '../store/appStore';
+import logoColor from '../assets/logo-color.svg';
 import { Sidebar } from './Sidebar';
 import { CodePanel } from './CodePanel';
 import { CanvasArea } from './CanvasArea';
@@ -45,7 +46,8 @@ export function Editor() {
   return (
     <>
       <header className="titlebar">
-        <span className="crumb-strong">Mermaid Studio</span>
+        <img src={logoColor} className="titlebar-logo" alt="" draggable={false} />
+        <span className="crumb-strong">OpenMermaid</span>
         <span className="crumb-sep">›</span>
         <span>{projectName}</span>
         {fileName && (

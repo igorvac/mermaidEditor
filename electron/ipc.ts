@@ -203,7 +203,7 @@ export function registerIpc() {
       if (res.canceled || !res.filePath) return null;
 
       const html = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:#fff}</style></head><body>${opts.svg}</body></html>`;
-      const tmp = path.join(os.tmpdir(), `mermaid-studio-pdf-${Date.now()}.html`);
+      const tmp = path.join(os.tmpdir(), `openmermaid-pdf-${Date.now()}.html`);
       await fs.writeFile(tmp, html, 'utf8');
 
       const hidden = new BrowserWindow({
